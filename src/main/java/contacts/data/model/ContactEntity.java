@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contact")
@@ -16,16 +19,22 @@ public class ContactEntity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
+  @NotBlank
   private String firstName;
 
+  @NotBlank
   private String lastName;
 
+  @NotNull
   private LocalDate birthDate;
 
+  @NotBlank
   private String address;
 
+  @Email
   private String email;
 
+  @NotBlank
   private String phoneNumber;
 
   public UUID getId() {
