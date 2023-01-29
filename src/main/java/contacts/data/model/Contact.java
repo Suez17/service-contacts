@@ -2,6 +2,7 @@ package contacts.data.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,24 +18,31 @@ public class Contact {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "id", columnDefinition = "uuid")
   private UUID id;
 
   @NotBlank
+  @Column(name = "first_name")
   private String firstName;
 
   @NotBlank
+  @Column(name = "last_name")
   private String lastName;
 
   @NotNull
+  @Column(name = "birth_date")
   private LocalDate birthDate;
 
   @NotBlank
+  @Column(name = "address")
   private String address;
 
   @Email
+  @Column(name = "email")
   private String email;
 
   @NotBlank
+  @Column(name = "phone_number")
   private String phoneNumber;
 
   public UUID getId() {
