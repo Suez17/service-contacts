@@ -42,6 +42,15 @@ class ApplicationIntegrationTest {
   }
 
   @Test
+  void findContactByFirstName() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/firstName?firstName=firstName2"))
+        .andExpectAll(
+            status().isOk(),
+            jsonPath("$._embedded.contacts", hasSize(1)),
+            jsonPath("$._embedded.contacts[0].firstName").value("firstName2"));
+  }
+
+  @Test
   void createContact() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
             .content(objectMapper.writeValueAsString(contact())))
@@ -58,6 +67,12 @@ class ApplicationIntegrationTest {
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
             .content(objectMapper.writeValueAsString(contact)))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void delete() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete("/contacts/62666466-3462-3364-2d65-6465312d3437"))
+        .andExpect(status().isNoContent());
   }
 
   private static Contact contact() {
