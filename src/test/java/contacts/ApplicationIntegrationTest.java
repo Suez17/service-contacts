@@ -1,7 +1,6 @@
 package contacts;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +51,24 @@ class ApplicationIntegrationTest {
   }
 
   @Test
+  void findContactByLastName() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/lastName?lastName=lastName2"))
+        .andExpectAll(
+            status().isOk(),
+            jsonPath("$._embedded.contacts", hasSize(1)),
+            jsonPath("$._embedded.contacts[0].firstName").value("firstName2"));
+  }
+
+  @Test
+  void findContactByFirstNameAndLastName() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/firstNameAndLastName?firstName=firstName2&lastName=lastName2"))
+        .andExpectAll(
+            status().isOk(),
+            jsonPath("$._embedded.contacts", hasSize(1)),
+            jsonPath("$._embedded.contacts[0].firstName").value("firstName2"));
+  }
+
+  @Test
   void createContact() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
             .content(objectMapper.writeValueAsString(contact())))
@@ -71,8 +88,15 @@ class ApplicationIntegrationTest {
   }
 
   @Test
-  void delete() throws Exception {
+  void deleteContact() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.delete("/contacts/bfdf4b3d-ede1-472b-94ad-96845a5820da"))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  void updateContact() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.put("/contacts/bfdf4b3d-ede1-472b-94ad-96845a5820da")
+            .content(objectMapper.writeValueAsString(contact())))
         .andExpect(status().isNoContent());
   }
 
