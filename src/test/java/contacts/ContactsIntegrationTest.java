@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @Sql("/sql/insert-contacts.sql")
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-class ApplicationIntegrationTest {
+class ContactsIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
