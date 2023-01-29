@@ -1,0 +1,20 @@
+services:
+  app:
+    image: 'service-contacts:latest'
+    build:
+      context: .
+    container_name: service-contacts
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - DATASOURCE_USERNAME=postgres
+      - DATASOURCE_PASSWORD=pass
+
+  db:
+    image: 'postgres:15-alpine'
+    container_name: database-contacts
+    environment:
+      - POSTGRES_PASSWORD=pass
