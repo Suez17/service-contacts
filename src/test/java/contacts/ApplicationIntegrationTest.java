@@ -1,6 +1,7 @@
 package contacts;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,7 +72,7 @@ class ApplicationIntegrationTest {
 
   @Test
   void delete() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.delete("/contacts/62666466-3462-3364-2d65-6465312d3437"))
+    mockMvc.perform(MockMvcRequestBuilders.delete("/contacts/bfdf4b3d-ede1-472b-94ad-96845a5820da"))
         .andExpect(status().isNoContent());
   }
 
