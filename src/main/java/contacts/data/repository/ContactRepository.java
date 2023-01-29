@@ -16,7 +16,7 @@ public interface ContactRepository
 
   @Override
   default void customize(QuerydslBindings bindings, QContact contact) {
-    bindings.bind(contact.firstName).first(StringExpression::contains);
-    bindings.bind(contact.lastName).first(StringExpression::contains);
+    bindings.bind(contact.firstName).first(StringExpression::containsIgnoreCase);
+    bindings.bind(contact.lastName).first(StringExpression::containsIgnoreCase);
   }
 }
