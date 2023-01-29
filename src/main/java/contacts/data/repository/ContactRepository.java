@@ -6,22 +6,17 @@ import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 @RepositoryRestResource(collectionResourceRel = "contacts", path = "contacts")
 public interface ContactRepository extends CrudRepository<Contact, UUID> {
 
+  @RestResource(path = "firstName")
   List<Contact> findByFirstNameContains(@Param("firstName") String firstName);
 
+  @RestResource(path = "lastName")
   List<Contact> findByLastNameContains(@Param("lastName") String lastName);
 
-  List<Contact> findByAddressContains(@Param("address") String address);
-
+  @RestResource(path = "firstNameAndLastName")
   List<Contact> findByFirstNameContainsAndLastNameContains(@Param("firstName") String firstName, @Param("lastName") String lastName);
-
-  List<Contact> findByFirstNameContainsAndAddressContains(@Param("firstName") String firstName, @Param("address") String address);
-
-  List<Contact> findByLastNameContainsAndAddressContains(@Param("lastName") String lastName, @Param("address") String address);
-
-  List<Contact> findByFirstNameContainsAndLastNameContainsAndAddressContains(
-      @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("address") String address);
 }
