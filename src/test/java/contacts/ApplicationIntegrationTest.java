@@ -44,38 +44,30 @@ class ApplicationIntegrationTest {
   @Test
   void createContact() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
-            .content(objectMapper.writeValueAsString(contactEntity(
-                "firstName3",
-                "lastName3",
-                LocalDate.of(1995, 1, 1),
-                "address3",
-                "test3@mail.com",
-                "0300000000"))))
+            .content(objectMapper.writeValueAsString(contactEntity())))
         .andExpect(status().isCreated());
   }
 
   @Test
   void createContact_firstNameEmpty_badRequest() throws Exception {
+    // Given
+    ContactEntity contactEntity = contactEntity();
+    contactEntity.setFirstName("");
+
+    // When + Then
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
-            .content(objectMapper.writeValueAsString(contactEntity(
-                "",
-                "lastName3",
-                LocalDate.of(1995, 1, 1),
-                "address3",
-                "test3@mail.com",
-                "0300000000"))))
+            .content(objectMapper.writeValueAsString(contactEntity)))
         .andExpect(status().isBadRequest());
   }
 
-  private static ContactEntity contactEntity(
-      String firstName, String lastName, LocalDate birthDate, String address, String email, String phoneNumber) {
+  private static ContactEntity contactEntity() {
     ContactEntity contact = new ContactEntity();
-    contact.setFirstName(firstName);
-    contact.setLastName(lastName);
-    contact.setBirthDate(birthDate);
-    contact.setAddress(address);
-    contact.setEmail(email);
-    contact.setPhoneNumber(phoneNumber);
+    contact.setFirstName("firstName3");
+    contact.setLastName("lastName3");
+    contact.setBirthDate(LocalDate.of(1995, 1, 1));
+    contact.setAddress("address3");
+    contact.setEmail("test3@mail.com");
+    contact.setPhoneNumber("0300000000");
     return contact;
   }
 }
