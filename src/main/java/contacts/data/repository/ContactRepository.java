@@ -1,22 +1,22 @@
 package contacts.data.repository;
 
+import com.querydsl.core.types.dsl.StringExpression;
 import contacts.data.model.Contact;
-import java.util.List;
+import contacts.data.model.QContact;
 import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @RepositoryRestResource(collectionResourceRel = "contacts", path = "contacts")
-public interface ContactRepository extends CrudRepository<Contact, UUID> {
+public interface ContactRepository
+    extends PagingAndSortingRepository<Contact, UUID>, QuerydslPredicateExecutor<Contact>, QuerydslBinderCustomizer<QContact> {
 
-  @RestResource(path = "firstName")
-  List<Contact> findByFirstNameContains(@Param("firstName") String firstName);
-
-  @RestResource(path = "lastName")
-  List<Contact> findByLastNameContains(@Param("lastName") String lastName);
-
-  @RestResource(path = "firstNameAndLastName")
-  List<Contact> findByFirstNameContainsAndLastNameContains(@Param("firstName") String firstName, @Param("lastName") String lastName);
+  @Override
+  default void customize(QuerydslBindings bindings, QContact contact) {
+    bindings.bind(contact.firstName).first(StringExpression::contains);
+    bindings.bind(contact.lastName).first(StringExpression::contains);
+  }
 }

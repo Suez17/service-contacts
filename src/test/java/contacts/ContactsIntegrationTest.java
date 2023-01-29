@@ -43,7 +43,7 @@ class ContactsIntegrationTest {
 
   @Test
   void findContactByFirstName() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/firstName?firstName=firstName2"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts?firstName=firstName2"))
         .andExpectAll(
             status().isOk(),
             jsonPath("$._embedded.contacts", hasSize(1)),
@@ -52,7 +52,7 @@ class ContactsIntegrationTest {
 
   @Test
   void findContactByLastName() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/lastName?lastName=lastName2"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts?lastName=lastName2"))
         .andExpectAll(
             status().isOk(),
             jsonPath("$._embedded.contacts", hasSize(1)),
@@ -61,7 +61,7 @@ class ContactsIntegrationTest {
 
   @Test
   void findContactByFirstNameAndLastName() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/contacts/search/firstNameAndLastName?firstName=firstName2&lastName=lastName2"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/contacts?firstName=firstName2&lastName=lastName2"))
         .andExpectAll(
             status().isOk(),
             jsonPath("$._embedded.contacts", hasSize(1)),
