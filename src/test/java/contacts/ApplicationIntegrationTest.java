@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import contacts.data.model.ContactEntity;
+import contacts.data.model.Contact;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,24 +44,24 @@ class ApplicationIntegrationTest {
   @Test
   void createContact() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
-            .content(objectMapper.writeValueAsString(contactEntity())))
+            .content(objectMapper.writeValueAsString(contact())))
         .andExpect(status().isCreated());
   }
 
   @Test
   void createContact_firstNameEmpty_badRequest() throws Exception {
     // Given
-    ContactEntity contactEntity = contactEntity();
-    contactEntity.setFirstName("");
+    Contact contact = contact();
+    contact.setFirstName("");
 
     // When + Then
     mockMvc.perform(MockMvcRequestBuilders.post("/contacts")
-            .content(objectMapper.writeValueAsString(contactEntity)))
+            .content(objectMapper.writeValueAsString(contact)))
         .andExpect(status().isBadRequest());
   }
 
-  private static ContactEntity contactEntity() {
-    ContactEntity contact = new ContactEntity();
+  private static Contact contact() {
+    Contact contact = new Contact();
     contact.setFirstName("firstName3");
     contact.setLastName("lastName3");
     contact.setBirthDate(LocalDate.of(1995, 1, 1));

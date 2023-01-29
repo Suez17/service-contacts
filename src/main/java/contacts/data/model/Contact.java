@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contact")
-public class ContactEntity {
+public class Contact {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
